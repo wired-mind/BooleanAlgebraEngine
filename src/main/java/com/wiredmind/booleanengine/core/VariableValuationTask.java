@@ -16,9 +16,9 @@ public class VariableValuationTask implements Callable<Integer>, Cell<Integer>, 
 
     private final static Logger LOGGER = LoggerFactory.getLogger(VariableValuationTask.class);
     public final static long serialVersionUID = 1L;
-    private Command evaluator;
-    private Context cntxt;
-    private Integer variable;
+    private final Command evaluator;
+    private final Context cntxt;
+    private final Integer variable;
     private Integer value;
 
     public VariableValuationTask(Command evaluator, Context cntxt, Integer variable) {
@@ -44,7 +44,7 @@ public class VariableValuationTask implements Callable<Integer>, Cell<Integer>, 
         } else {
             setValue(-variable); // False: Return its negation (0 - value)
         }
-        LOGGER.debug("Truth value for variable '{}' is {}", variable, result == Command.CONTINUE_PROCESSING ? true : false);
+        LOGGER.debug("Truth value for variable '{}' is {}", variable, result == Command.CONTINUE_PROCESSING);
         return value;
     }
 

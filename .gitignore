@@ -18,4 +18,4 @@ build
 boot
 mods
 .gradle
-**/lib/*.jar
+lib/*.jar

@@ -23,8 +23,8 @@ public enum PropertyTypeEnum {
     /**
      * Get the general property type.
      *
-     * @param val
-     * @return
+     * @param val The value
+     * @return A property type
      */
     public static PropertyTypeEnum getPropertyType(Object val) {
         PropertyTypeEnum typeEnum = PropertyTypeEnum.UNKNOWN;

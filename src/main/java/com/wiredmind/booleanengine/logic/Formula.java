@@ -33,16 +33,15 @@ public class Formula implements Serializable {
         LEAF, AND, OR, NOT
     }
 
-    ;
-    protected BOP op;
-    protected Formula left;
-    protected Formula right;
-    protected String lit;
+    BOP op;
+    Formula left;
+    Formula right;
+    String lit;
     /*
      * Populated in newInstanceforSAT
      */
-    private Set<Model> models = new HashSet<Model>();
-    private Map<Integer, String> variableMap = new TreeMap<Integer, String>();
+    private final Set<Model> models = new HashSet<Model>();
+    private final Map<Integer, String> variableMap = new TreeMap<Integer, String>();
 
     /**
      * Constructs a new empty formula.
@@ -59,7 +58,7 @@ public class Formula implements Serializable {
         this.op = other.op;
         this.left = other.left == null ? null : new Formula(other.left);
         this.right = other.right == null ? null : new Formula(other.right);
-        this.lit = other.lit == null ? null : new StringBuilder(other.lit).toString();
+        this.lit = other.lit == null ? null : other.lit;
     }
 
     /**
@@ -68,7 +67,7 @@ public class Formula implements Serializable {
      * satisfy the formula (if any).
      * <p>An empty formula generates an empty set of models.</p>
      *
-     * @param formula
+     * @param formula The Formula
      * @return a new formula composed of a set of models that satisfy that formula.
      * @throws ContradictionException
      * @throws TimeoutException
@@ -119,7 +118,7 @@ public class Formula implements Serializable {
      */
     public List<IVecInt> toCNFDimacsClauses() {
         List<IVecInt> dimacsClauses = new ArrayList<IVecInt>();
-        Integer mapKey = new Integer(0);
+        Integer mapKey = 0;
         for (Clause clause : this.toCNFClauses()) {
             Set<String> literals = clause.getLiterals();
             for (String literal : literals) {
@@ -156,7 +155,7 @@ public class Formula implements Serializable {
      * Returns a new formula that is the conjunction
      * if this formula and the provided formula.
      *
-     * @param formula
+     * @param formula The Formula
      * @return a new formula
      */
     public Formula and(Formula formula) {
@@ -167,7 +166,7 @@ public class Formula implements Serializable {
      * Returns a new formula that is the disjunction
      * if this formula and the provided formula.
      *
-     * @param formula
+     * @param formula The Formula
      * @return a new formula
      */
     public Formula or(Formula formula) {
@@ -199,13 +198,7 @@ public class Formula implements Serializable {
         if (this.left != other.left && (this.left == null || !this.left.equals(other.left))) {
             return false;
         }
-        if (this.right != other.right && (this.right == null || !this.right.equals(other.right))) {
-            return false;
-        }
-        if ((this.lit == null) ? (other.lit != null) : !this.lit.equals(other.lit)) {
-            return false;
-        }
-        return true;
+        return !(this.right != other.right && (this.right == null || !this.right.equals(other.right))) && !((this.lit == null) ? (other.lit != null) : !this.lit.equals(other.lit));
     }
 
     @Override
@@ -226,8 +219,6 @@ public class Formula implements Serializable {
      * <p>"(!a or b) and c"</p>
      * <p/>
      * <p>Note that an empty formula returns an empty string.</p>
-     *
-     * @return
      */
     @Override
     public String toString() {
@@ -409,17 +400,11 @@ public class Formula implements Serializable {
     }
 
     public boolean isClause() {
-        if (isAtomic()) {
-            return true;
-        }
-        return right.isClause() && op == BOP.OR && left.isClause();
+        return isAtomic() || right.isClause() && op == BOP.OR && left.isClause();
     }
 
     public boolean isPhrase() {
-        if (isAtomic()) {
-            return true;
-        }
-        return right.isPhrase() && op == BOP.AND && left.isPhrase();
+        return isAtomic() || right.isPhrase() && op == BOP.AND && left.isPhrase();
     }
 
     private void getClauses(List<Clause> clauses, Formula f) {

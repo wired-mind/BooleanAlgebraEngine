@@ -16,14 +16,14 @@ import java.util.*;
 public final class Model implements Set<Integer>, Serializable {
 
     private static final long serialVersionUID = 2L;
-    private List<Integer> internalModel = new ArrayList<Integer>();
+    private final List<Integer> internalModel = new ArrayList<Integer>();
 
-    public Model() {
+    private Model() {
     }
 
     public Model(int[] literals) {
-        for (int i = 0; i < literals.length; i++) {
-            this.add(literals[i]);
+        for (int literal : literals) {
+            this.add(literal);
         }
     }
 
@@ -69,10 +69,7 @@ public final class Model implements Set<Integer>, Serializable {
         if (internalModel.contains(-e)) {
             throw new IllegalArgumentException("A model cannot contain a literal and its negation");
         }
-        if (!internalModel.contains(e)) {
-            return internalModel.add(e);
-        }
-        return false;
+        return !internalModel.contains(e) && internalModel.add(e);
     }
 
     @Override
@@ -120,9 +117,9 @@ public final class Model implements Set<Integer>, Serializable {
     public Model differenceOf(Model other) {
         Model difference = new Model();
 
-        for (int i = 0; i < internalModel.size(); i++) {
-            if (!other.contains(internalModel.get(i))) {
-                difference.add(internalModel.get(i));
+        for (Integer anInternalModel : internalModel) {
+            if (!other.contains(anInternalModel)) {
+                difference.add(anInternalModel);
             }
         }
 
@@ -156,10 +153,7 @@ public final class Model implements Set<Integer>, Serializable {
             return false;
         }
         final Model other = (Model) obj;
-        if (!(this.isSubsetOf(other) && other.isSubsetOf(this))) {
-            return false;
-        }
-        return true;
+        return this.isSubsetOf(other) && other.isSubsetOf(this);
     }
 
     @Override

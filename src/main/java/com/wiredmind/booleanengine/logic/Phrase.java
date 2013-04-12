@@ -12,7 +12,7 @@ public class Phrase extends Formula {
         this.op = var.op;
         this.left = var.left == null ? null : new Formula(var.left);
         this.right = var.right == null ? null : new Formula(var.right);
-        this.lit = var.lit == null ? null : new StringBuilder(var.lit).toString();
+        this.lit = var.lit == null ? null : var.lit;
     }
 
     public Phrase(Phrase left, Phrase right) {
@@ -28,7 +28,7 @@ public class Phrase extends Formula {
             this.op = formula.op;
             this.left = formula.left == null ? null : new Formula(formula.left);
             this.right = formula.right == null ? null : new Formula(formula.right);
-            this.lit = formula.lit == null ? null : new StringBuilder(formula.lit).toString();
+            this.lit = formula.lit == null ? null : formula.lit;
         } else {
             throw new IllegalArgumentException(formula.toString() + " is not a phrase");
         }

@@ -15,11 +15,11 @@ import java.util.Date;
  */
 public abstract class AbstractRelation implements Relation, Serializable {
 
-    public static final String[] DATE_PARSE_PATTERNS = new String[]{"yyyy-MM-dd", "dd/MM/yyyy", "MM/dd/yyyy"};
+    private static final String[] DATE_PARSE_PATTERNS = new String[]{"yyyy-MM-dd", "dd/MM/yyyy", "MM/dd/yyyy"};
     private static final Calendar calendar = Calendar.getInstance(); // TODO: Is this thread-safe?
-    protected PropertyTypeEnum propertyType;
-    protected Object propertyValue;
-    protected boolean truthValue;
+    PropertyTypeEnum propertyType;
+    Object propertyValue;
+    boolean truthValue;
 
     @Override
     public abstract boolean execute(Context context) throws Exception;
@@ -36,9 +36,8 @@ public abstract class AbstractRelation implements Relation, Serializable {
      *
      * @param context The context
      * @param key     The attribute of the context
-     * @throws Exception
      */
-    public void setPropertyValue(Context context, Object key) throws Exception {
+    void setPropertyValue(Context context, Object key) {
 
         propertyValue = context.get(key);
 
@@ -55,7 +54,7 @@ public abstract class AbstractRelation implements Relation, Serializable {
      *         considerations for strings.
      * @throws Exception
      */
-    protected int comparePropertyTo(String val) throws Exception {
+    int comparePropertyTo(String val) throws Exception {
         switch (propertyType) {
             case CALENDAR:
                 calendar.setTime(DateUtils.parseDate(val, DATE_PARSE_PATTERNS));
@@ -86,7 +85,7 @@ public abstract class AbstractRelation implements Relation, Serializable {
      *         false if not or <code>null</code> string input
      * @throws Exception
      */
-    protected boolean propertyContains(String val) throws Exception {
+    boolean propertyContains(String val) throws Exception {
         if (val == null) {
             return false;
         }

@@ -84,7 +84,7 @@ task cleanLibDir(type: Delete) {
     delete project.file('lib')
 }
 
-task copyToLib( type: Copy, dependsOn: 'classes', description: 'Copy runtime dependencies to module lib directory' ) {
+task copyToLib(type: Copy, dependsOn: 'classes', description: 'Copy runtime dependencies to module lib directory') {
     dependsOn cleanLibDir
     group = "Module"
     into project.file('lib')

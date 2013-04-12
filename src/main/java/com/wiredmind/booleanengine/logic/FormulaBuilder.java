@@ -20,7 +20,6 @@ public class FormulaBuilder {
 
     private final static Cache ASTCACHE = new Cache(1000); // default TreeCache implementation
     private boolean hasPredicate = false;
-    private Formula formula;
     private Formula predicate;
     private Formula consequent;
     private Formula alternative;
@@ -46,7 +45,7 @@ public class FormulaBuilder {
      * @throws TimeoutException
      */
     public Formula build() throws BadExpressionException, ContradictionException, TimeoutException {
-        formula = new Formula();
+        Formula formula = new Formula();
 
         if (StringUtils.isEmpty(expression)) {
             return formula;
@@ -70,7 +69,7 @@ public class FormulaBuilder {
     }
 
     private Formula buildFormula(Node node, Stack<Node> predecessors) {
-        Formula f = null;
+        Formula f;
 
         predecessors.push(node);
 

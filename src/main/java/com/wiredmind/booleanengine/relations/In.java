@@ -8,7 +8,7 @@ import org.apache.commons.chain.Context;
 public class In extends AbstractBinaryRelation<Object, String> {
 
     public final static long serialVersionUID = 1L;
-    private String[] vals;
+    private final String[] vals;
 
     public In(Object key, String val) {
         super(key, null);
@@ -24,8 +24,8 @@ public class In extends AbstractBinaryRelation<Object, String> {
     public boolean execute(Context context) throws Exception {
         setPropertyValue(context, key);
 
-        for (int i = 0; i < vals.length; i++) {
-            if (comparePropertyTo(vals[i]) == 0) {
+        for (String val1 : vals) {
+            if (comparePropertyTo(val1) == 0) {
                 truthValue = true;
                 return CONTINUE_PROCESSING;
             }

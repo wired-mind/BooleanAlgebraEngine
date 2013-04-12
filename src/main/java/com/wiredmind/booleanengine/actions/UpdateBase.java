@@ -17,18 +17,18 @@ import java.math.BigDecimal;
  */
 public abstract class UpdateBase implements Relation, Serializable {
 
-    public UpdateBase(String amount) {
+    UpdateBase(String amount) {
         this.amount = new BigDecimal(amount);
     }
 
-    public UpdateBase(String amount, String description) {
+    UpdateBase(String amount, String description) {
         this.amount = new BigDecimal(amount);
         this.description = description;
     }
 
-    protected BigDecimal amount;
-    protected String description;
-    protected boolean truthValue;
+    final BigDecimal amount;
+    String description;
+    boolean truthValue;
 
     /**
      * Specify the applicability of this command from
@@ -60,8 +60,8 @@ public abstract class UpdateBase implements Relation, Serializable {
         return this;
     }
 
-    protected Command applicabilityMember;
-    protected boolean isApplicable = false;
+    Command applicabilityMember;
+    boolean isApplicable = false;
 
     /**
      * Subclasses should override this method but also

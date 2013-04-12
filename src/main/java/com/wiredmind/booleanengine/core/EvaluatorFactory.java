@@ -1,8 +1,6 @@
 package com.wiredmind.booleanengine.core;
 
 import com.wiredmind.booleanengine.actions.PercentUpdate;
-import com.wiredmind.booleanengine.actions.PercentUpdate;
-import com.wiredmind.booleanengine.actions.SimpleUpdate;
 import com.wiredmind.booleanengine.actions.SimpleUpdate;
 import com.wiredmind.booleanengine.relations.*;
 import org.apache.commons.lang.StringUtils;

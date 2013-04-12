@@ -39,8 +39,8 @@ public class DefaultValidatorAlgebra implements ValidatorAlgebra {
 
     class Atom {
 
-        private String name;
-        private Relation relation;
+        private final String name;
+        private final Relation relation;
         private boolean evaluated = false;
         private boolean value;
 
@@ -75,7 +75,7 @@ public class DefaultValidatorAlgebra implements ValidatorAlgebra {
         if (StringUtils.isNotEmpty(expression)) {
             valueExpression = FACTORY.createValueExpression(expressionContext, "${" + this.expression + "}", Boolean.class);
             truthValue = (Boolean) valueExpression.getValue(expressionContext);
-            if (truthValue == true) {
+            if (truthValue) {
                 return CONTINUE_PROCESSING;
             }
         }

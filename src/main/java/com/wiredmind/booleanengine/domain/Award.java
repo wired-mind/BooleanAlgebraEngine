@@ -7,7 +7,7 @@ package com.wiredmind.booleanengine.domain;
  */
 public class Award {
 
-    public static String AWARD_KEY = "award";
+    public static final String AWARD_KEY = "award";
     private String description;
     private double amount;
 
