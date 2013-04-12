@@ -1,9 +1,6 @@
 <component name="libraryTable">
   <library name="lib">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/org.sat4j.intervalorders-src.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/org.sat4j.intervalorders.jar!/" />
-      <root url="jar://$PROJECT_DIR$/lib/sat4j-intervalorders.jar!/" />
       <root url="file://$PROJECT_DIR$/lib" />
     </CLASSES>
     <JAVADOC />

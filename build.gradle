@@ -1,0 +1,140 @@
+/*
+ * BooleanAlgebraEngine build script
+ *
+ */
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+// We  have to explicitly load props from the user home dir - on CI we set
+// GRADLE_USER_HOME to a different dir to avoid problems with concurrent builds corrupting
+// a shared Maven local and using Gradle wrapper concurrently
+loadProperties("${System.getProperty('user.home')}/.gradle/gradle.properties")
+
+group = modowner
+archivesBaseName = modname
+
+defaultTasks = ['assemble']
+
+sourceCompatibility = '1.7'
+targetCompatibility = '1.7'
+
+project.ext.moduleName = "$modname-$version"
+
+if (produceJar == 'false') {
+    jar.enabled = false
+    assert configurations.archives.artifacts.removeAll { it.file == jar.archivePath }
+}
+
+configurations {
+    provided
+    testCompile.extendsFrom provided
+}
+
+repositories {
+    if (System.getenv("JENKINS_HOME") == null) {
+        // We don't want to use mavenLocal when running on CI - mavenLocal is only useful in Gradle for
+        // publishing artifacts locally for development purposes - maven local is also not threadsafe when there
+        // are concurrent builds
+        mavenLocal()
+    }
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    mavenCentral()
+}
+
+dependencies {
+
+    compile "commons-lang:commons-lang:2.6"
+    compile "commons-collections:commons-collections:3.2.1"
+    compile "commons-chain:commons-chain:1.2"
+    compile "de.odysseus.juel:juel:2.1.3"
+    compile "org.sat4j:org.sat4j.core:2.3.1"
+    compile "org.slf4j:slf4j-api:1.7.5"
+
+    testCompile "junit:junit-dep:$junitVersion"
+    testCompile "joda-time:joda-time:2.2"
+}
+
+// This sets up the classpath for the script itself
+buildscript {
+
+    repositories {
+        add(new org.apache.ivy.plugins.resolver.URLResolver()) {
+            name = 'GitHub'
+            addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+        }
+        mavenLocal()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+        mavenCentral()
+    }
+
+    dependencies {
+    }
+}
+
+sourceSets {
+    main {
+        compileClasspath = compileClasspath + configurations.provided
+    }
+}
+
+task cleanLibDir(type: Delete) {
+    delete project.file('lib')
+}
+
+task copyToLib( type: Copy, dependsOn: 'classes', description: 'Copy runtime dependencies to module lib directory' ) {
+    dependsOn cleanLibDir
+    group = "Module"
+    into project.file('lib')
+    from configurations.runtime
+    into project.file('lib')
+    from configurations.testCompile
+}
+
+jar { dependsOn copyToLib }
+
+test {
+    // Make sure tests are always run!
+    outputs.upToDateWhen { false }
+
+    // Show output
+    testLogging.showStandardStreams = true
+
+    testLogging { exceptionFormat "full" }
+}
+
+task collectDeps(type: Copy) {
+    description = 'conveniently collect dependencies for other IDEs'
+    destinationDir = file("build/deps")
+    into("compile") {
+        from configurations.compile
+    }
+    into("test") {
+        from configurations.testCompile
+    }
+}
+
+def loadProperties(String sourceFileName) {
+    def config = new Properties()
+    def propFile = new File(sourceFileName)
+    if (propFile.canRead()) {
+        config.load(new FileInputStream(propFile))
+        for (Map.Entry property in config) {
+            project.ext[property.key] = property.value;
+        }
+    }
+}
+
+// Map the 'provided' dependency configuration to the appropriate IDEA visibility scopes.
+plugins.withType(IdeaPlugin) {
+    idea {
+        module {
+            scopes.PROVIDED.plus += configurations.provided
+            scopes.COMPILE.minus += configurations.provided
+            scopes.TEST.minus += configurations.provided
+            scopes.RUNTIME.minus += configurations.provided
+        }
+    }
+}
