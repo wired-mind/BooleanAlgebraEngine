@@ -39,7 +39,12 @@ uploadArchives {
 	description = "Does a maven deploy of archives artifacts"
 
 	repositories {
-		mavenDeployer {
+        mavenDeployer {
+            configurePom pom
+            repository(url: 'file:///opt/local/maven')
+        }
+        /*
+        mavenDeployer {
       // setUniqueVersion(false)
 
 			configuration = configurations.archives
@@ -58,6 +63,7 @@ uploadArchives {
 
 			configurePom(pom)
 		}
+		*/
 	}
 }
 

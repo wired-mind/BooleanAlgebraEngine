@@ -3,6 +3,8 @@
  *
  */
 
+apply from: "gradle/maven.gradle"
+
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
@@ -123,6 +125,41 @@ def loadProperties(String sourceFileName) {
         config.load(new FileInputStream(propFile))
         for (Map.Entry property in config) {
             project.ext[property.key] = property.value;
+        }
+    }
+}
+
+def configurePom(def pom) {
+    pom.project {
+        description 'Boolean Algebra Engine'
+        inceptionYear '2013'
+        packaging 'zip'
+        url 'http://www.wired-mind.com'
+
+        developers {
+            developer {
+                id 'wired-mind-team'
+                name 'Wired-Mind Labs Development Team'
+                email 'wired-mind@wired-mind.com'
+            }
+        }
+
+        scm {
+            url 'https://github.com/wired-mind/BooleanAlgebraEngine'
+        }
+
+        /*
+        licenses {
+            license {
+                name 'The name of the license used, e.g.: The Apache Software License, Version 2.0'
+                url 'URl to the license, e.g.: http://www.apache.org/licenses/LICENSE-2.0.txt'
+                distribution 'repo'
+            }
+        }
+        */
+
+        properties {
+            setProperty('project.build.sourceEncoding', 'UTF8')
         }
     }
 }
