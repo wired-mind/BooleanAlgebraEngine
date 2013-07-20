@@ -1,39 +1,32 @@
 package com.wiredmind.booleanengine.actions;
 
-import com.wiredmind.booleanengine.domain.Award;
+import com.wiredmind.booleanengine.actions.UpdateBase;
 import org.apache.commons.chain.Context;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * Update the Award amount by the specified amount as a percentage
  * of the transaction amount.
  */
-public class PercentUpdate extends UpdateBase implements Serializable {
+public class PercentUpdate extends UpdateBase<Object, String> {
 
-    public PercentUpdate(String amount) {
-        super(amount);
-    }
+    public final static long serialVersionUID = 1L;
 
-    public PercentUpdate(String amount, String description) {
-        super(amount, description);
+    public PercentUpdate(Object key, String amount) {
+        super(key, amount);
     }
 
     @Override
     public boolean execute(Context cntxt) throws Exception {
-        super.execute(cntxt);
+        setPropertyValue(cntxt, key);
 
         if (null == applicabilityMember || isApplicable) {
-            Award award = (Award) cntxt.get(Award.AWARD_KEY);
-            if (null == award) {
-                return PROCESSING_COMPLETE;
-            }
-            BigDecimal transactionAmount = new BigDecimal(cntxt.get("Amount").toString());
-            BigDecimal percentage = this.amount.movePointLeft(2);
 
-            award.setAmount(transactionAmount.multiply(percentage).doubleValue());
-            award.setDescription(this.description);
+            BigDecimal percentage = new BigDecimal(val).movePointLeft(2);
+            BigDecimal transactionAmount = new BigDecimal(cntxt.get("Amount").toString());
+
+            cntxt.put(key, new BigDecimal(transactionAmount.multiply(percentage).doubleValue()).toString());
         }
         truthValue = true;
         return CONTINUE_PROCESSING;

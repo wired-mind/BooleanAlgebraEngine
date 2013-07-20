@@ -1,35 +1,25 @@
 package com.wiredmind.booleanengine.actions;
 
-import com.wiredmind.booleanengine.domain.Award;
+import com.wiredmind.booleanengine.actions.UpdateBase;
 import org.apache.commons.chain.Context;
-
-import java.io.Serializable;
 
 /**
  * Update the Award amount by the specified amount as a simple value.
  */
-public class SimpleUpdate extends UpdateBase implements Serializable {
+public class SimpleUpdate extends UpdateBase<Object, String> {
 
-    public SimpleUpdate(String amount) {
-        super(amount);
-    }
+    public final static long serialVersionUID = 1L;
 
-    public SimpleUpdate(String amount, String description) {
-        super(amount, description);
+    public SimpleUpdate(Object key, String amount) {
+        super(key, amount);
     }
 
     @Override
     public boolean execute(Context cntxt) throws Exception {
-        super.execute(cntxt);
+        setPropertyValue(cntxt, key);
 
         if (null == applicabilityMember || isApplicable) {
-            Award award = (Award) cntxt.get(Award.AWARD_KEY);
-            if (null == award) {
-                return PROCESSING_COMPLETE;
-            }
-
-            award.setAmount(this.amount.doubleValue());
-            award.setDescription(this.description);
+            cntxt.put(key, val);
         }
         truthValue = true;
         return CONTINUE_PROCESSING;
