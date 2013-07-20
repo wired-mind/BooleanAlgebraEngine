@@ -55,12 +55,6 @@ public class EvaluatorFactory {
 
     private static Relation createUnaryRelation(String name, String val) {
         // Actions (Regarded as one-place or unary relations):
-        if (name.equals("award")) {
-            return new SimpleUpdate(val);
-        }
-        if (name.equals("percentaward")) {
-            return new PercentUpdate(val);
-        }
         return new False(); // default
     }
 
@@ -82,6 +76,10 @@ public class EvaluatorFactory {
             return new Like(key, val);
         } else if (name.equals("match")) {
             return new Match(key, val);
+        } else if (name.equals("award")) {
+            return new SimpleUpdate(key, val);
+        } else if (name.equals("percentaward")) {
+            return new PercentUpdate(key, val);
         }
         return new False();
     }

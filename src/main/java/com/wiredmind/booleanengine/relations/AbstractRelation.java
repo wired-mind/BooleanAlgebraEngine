@@ -15,11 +15,11 @@ import java.util.Date;
  */
 public abstract class AbstractRelation implements Relation, Serializable {
 
-    private static final String[] DATE_PARSE_PATTERNS = new String[]{"yyyy-MM-dd", "dd/MM/yyyy", "MM/dd/yyyy"};
+    private static final String[] DATE_PARSE_PATTERNS = new String[]{"yyMMdd", "yyyy-MM-dd", "dd/MM/yyyy", "MM/dd/yyyy"};
     private static final Calendar calendar = Calendar.getInstance(); // TODO: Is this thread-safe?
+    protected boolean truthValue;
     PropertyTypeEnum propertyType;
     Object propertyValue;
-    boolean truthValue;
 
     @Override
     public abstract boolean execute(Context context) throws Exception;
@@ -37,7 +37,7 @@ public abstract class AbstractRelation implements Relation, Serializable {
      * @param context The context
      * @param key     The attribute of the context
      */
-    void setPropertyValue(Context context, Object key) {
+    protected void setPropertyValue(Context context, Object key) {
 
         propertyValue = context.get(key);
 

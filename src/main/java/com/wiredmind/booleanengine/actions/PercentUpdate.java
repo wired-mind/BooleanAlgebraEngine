@@ -1,6 +1,5 @@
 package com.wiredmind.booleanengine.actions;
 
-import com.wiredmind.booleanengine.actions.UpdateBase;
 import org.apache.commons.chain.Context;
 
 import java.math.BigDecimal;
@@ -19,7 +18,6 @@ public class PercentUpdate extends UpdateBase<Object, String> {
 
     @Override
     public boolean execute(Context cntxt) throws Exception {
-        setPropertyValue(cntxt, key);
 
         if (null == applicabilityMember || isApplicable) {
 
