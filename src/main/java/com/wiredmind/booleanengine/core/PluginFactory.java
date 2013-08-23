@@ -51,6 +51,20 @@ public class PluginFactory {
         }
     }
 
+    public static void RegisterAction(String name, Action action) {
+        if (pluginActions.containsKey(name))
+            pluginActions.remove(name);
+
+        pluginActions.put(name, action.getClass());
+    }
+
+    public static void RegisterComparator(Class<?> type, Comparator<?> comparator) {
+        if (pluginComparators.containsKey(type))
+            pluginComparators.remove(type);
+
+        pluginComparators.put(type, comparator.getClass());
+    }
+
     public static Action getAction(String name, String val) {
         // Return plugin Action or null
         for (String key : pluginActions.keySet()) {
