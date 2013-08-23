@@ -17,9 +17,9 @@ public class DefaultValidatorAlgebra implements ValidatorAlgebra {
 
     private final static Logger LOGGER = Logger.getLogger(DefaultValidatorAlgebra.class.getName());
     private final static ExpressionFactory FACTORY = new de.odysseus.el.ExpressionFactoryImpl();
-    private Context commandContext;
     private final String expression;
     private final de.odysseus.el.util.SimpleContext expressionContext = new de.odysseus.el.util.SimpleContext();
+    private Context commandContext;
     private boolean truthValue;
     private Map<String, Boolean> valuationMap;
     private ValueExpression valueExpression;
@@ -35,36 +35,6 @@ public class DefaultValidatorAlgebra implements ValidatorAlgebra {
 
     public DefaultValidatorAlgebra(String expression, Collection<Rule> rules) {
         this(expression, new ArrayList<Rule>(rules));
-    }
-
-    class Atom {
-
-        private final String name;
-        private final Relation relation;
-        private boolean evaluated = false;
-        private boolean value;
-
-        public Atom(Rule rule) {
-            this.name = rule.getRuleName();
-            this.relation = EvaluatorFactory.create(
-                    rule.getRelation(),
-                    rule.getArguments());
-        }
-
-        public boolean isValue() {
-            if (!evaluated) {
-                try {
-                    LOGGER.finest("atomEvaluation"); // used for unit testing
-                    this.value = this.relation.isTruthValue(commandContext);
-                    valuationMap.put(this.name, this.value);
-                } catch (Exception ex) {
-                    LOGGER.log(Level.FINE, ex.getMessage());
-                } finally {
-                    this.evaluated = true;
-                }
-            }
-            return this.value;
-        }
     }
 
     @Override
@@ -104,5 +74,35 @@ public class DefaultValidatorAlgebra implements ValidatorAlgebra {
     @Override
     public Map<String, Boolean> getValuationMap() {
         return new TreeMap<String, Boolean>(valuationMap);
+    }
+
+    class Atom {
+
+        private final String name;
+        private final Relation relation;
+        private boolean evaluated = false;
+        private boolean value;
+
+        public Atom(Rule rule) {
+            this.name = rule.getRuleName();
+            this.relation = RelationFactory.create(
+                    rule.getRelation(),
+                    rule.getArguments());
+        }
+
+        public boolean isValue() {
+            if (!evaluated) {
+                try {
+                    LOGGER.finest("atomEvaluation"); // used for unit testing
+                    this.value = this.relation.isTruthValue(commandContext);
+                    valuationMap.put(this.name, this.value);
+                } catch (Exception ex) {
+                    LOGGER.log(Level.FINE, ex.getMessage());
+                } finally {
+                    this.evaluated = true;
+                }
+            }
+            return this.value;
+        }
     }
 }

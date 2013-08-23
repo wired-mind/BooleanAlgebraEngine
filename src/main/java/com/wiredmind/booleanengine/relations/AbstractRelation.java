@@ -1,33 +1,21 @@
 package com.wiredmind.booleanengine.relations;
 
-import com.wiredmind.booleanengine.relations.comparators.DefaultCalendarComparator;
-import com.wiredmind.booleanengine.relations.comparators.DefaultDateComparator;
-import com.wiredmind.booleanengine.relations.comparators.DefaultNumberComparator;
-import com.wiredmind.booleanengine.relations.comparators.DefaultStringComparator;
+import com.wiredmind.booleanengine.core.PluginFactory;
+import com.wiredmind.booleanengine.relations.comparators.Comparator;
 import org.apache.commons.chain.Context;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Base class for all relations.
  */
 public abstract class AbstractRelation implements Relation, Serializable {
 
-    private static Map<Class<?>, Comparator<?>> defaultComparators = new HashMap<Class<?>, Comparator<?>>();
+    private final static Logger LOGGER = Logger.getLogger(AbstractRelation.class.getName());
     protected Comparator<Object> comparator;
     protected Object propertyValue;
     protected boolean truthValue;
-
-    static {
-        // Load default Comparator instances
-        defaultComparators.put(java.lang.Number.class, new DefaultNumberComparator());
-        defaultComparators.put(java.util.Calendar.class, new DefaultCalendarComparator());
-        defaultComparators.put(java.lang.String.class, new DefaultStringComparator());
-        defaultComparators.put(java.util.Date.class, new DefaultDateComparator());
-        defaultComparators.put(java.lang.Boolean.class, new DefaultNumberComparator());
-    }
 
     @Override
     public abstract boolean execute(Context context) throws Exception;
@@ -47,25 +35,14 @@ public abstract class AbstractRelation implements Relation, Serializable {
      */
     protected void setPropertyValue(Context context, Object key) {
 
-        propertyValue = context.get(key);
-
-        comparator = getComparator();
-    }
-
-    private Comparator getComparator() {
-        // Look for plugin Comparator for propertyValue
-        Comparator<?> pluginComparator = PluginFactory.getPluginComparator(propertyValue);
-
-        if (pluginComparator != null)
-            return pluginComparator;
-
-        // Return default Comparator or null
-        for (Class<?> classType : defaultComparators.keySet()) {
-            if (classType.isInstance(propertyValue)) {
-                return defaultComparators.get(classType);
-            }
+        if (context != null) {
+            propertyValue = context.get(key);
+        } else {
+            LOGGER.warning("null context");
+            propertyValue = key;
         }
-        return null;
+
+        comparator = PluginFactory.getComparator(propertyValue);
     }
 
     /**

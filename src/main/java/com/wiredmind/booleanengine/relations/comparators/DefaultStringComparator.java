@@ -1,6 +1,6 @@
 package com.wiredmind.booleanengine.relations.comparators;
 
-import com.wiredmind.booleanengine.relations.Comparator;
+import java.io.Serializable;
 
 /**
  * DefaultStringComparator.java
@@ -8,11 +8,16 @@ import com.wiredmind.booleanengine.relations.Comparator;
  * Created by Craig Earley on 8/5/13.
  * Copyright (c) 2013 Wired-Mind Labs, LLC.
  */
-public class DefaultStringComparator implements Comparator<String> {
+public class DefaultStringComparator implements Comparator<String>, Serializable {
+
+    @Override
+    public int compare(String lhs, String rhs) throws Exception {
+        return rhs.compareToIgnoreCase(lhs);
+    }
 
     @Override
     public int compare(String lhs, CharSequence rhs) throws Exception {
-        return String.valueOf(rhs).compareToIgnoreCase(lhs);
+        return compare(lhs, String.valueOf(rhs));
     }
 
     @Override

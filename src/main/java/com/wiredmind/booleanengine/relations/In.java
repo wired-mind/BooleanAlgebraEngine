@@ -24,8 +24,8 @@ public class In extends AbstractBinaryRelation<Object, String> {
     public boolean execute(Context context) throws Exception {
         setPropertyValue(context, key);
 
-        for (String val1 : vals) {
-            if (comparePropertyTo(val1) == 0) {
+        for (String s : vals) {
+            if (comparePropertyTo(s) == 0) {
                 truthValue = true;
                 return CONTINUE_PROCESSING;
             }

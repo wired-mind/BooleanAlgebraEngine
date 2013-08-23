@@ -1,4 +1,4 @@
-package com.wiredmind.booleanengine.core;
+package com.wiredmind.booleanengine.core.concurrent;
 
 /**
  * Represents the valuation of a variable in a

@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <configuration>
     <plugins>
-        <comparator>
-            <type>java.lang.String</type>
-            <class>com.wiredmind.booleanengine.relations.TestComparator</class>
-        </comparator>
-        <!--comparator>
-            <type>java.lang.SomeOtherType</type>
-            <class>com.tests.SomeOtherClass</class>
-        </comparator-->
+        <comparators>
+            <comparator>
+                <type>java.lang.String</type>
+                <class>com.wiredmind.booleanengine.relations.plugins.TestComparator</class>
+            </comparator>
+        </comparators>
+        <actions>
+            <action>
+                <name>percentaward</name>
+                <class>com.wiredmind.booleanengine.relations.plugins.PercentUpdate</class>
+            </action>
+            <action>
+                <name>award</name>
+                <class>com.wiredmind.booleanengine.relations.plugins.SimpleUpdate</class>
+            </action>
+        </actions>
     </plugins>
 </configuration>

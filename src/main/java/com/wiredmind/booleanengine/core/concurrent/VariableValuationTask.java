@@ -1,4 +1,4 @@
-package com.wiredmind.booleanengine.core;
+package com.wiredmind.booleanengine.core.concurrent;
 
 import org.apache.commons.chain.Command;
 import org.apache.commons.chain.Context;
@@ -14,8 +14,8 @@ import java.util.concurrent.Callable;
  */
 public class VariableValuationTask implements Callable<Integer>, Cell<Integer>, Serializable {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(VariableValuationTask.class);
     public final static long serialVersionUID = 1L;
+    private final static Logger LOGGER = LoggerFactory.getLogger(VariableValuationTask.class);
     private final Command evaluator;
     private final Context cntxt;
     private final Integer variable;

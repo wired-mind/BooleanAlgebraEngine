@@ -1,14 +1,13 @@
 package com.wiredmind.booleanengine.core;
 
-import com.wiredmind.booleanengine.actions.PercentUpdate;
-import com.wiredmind.booleanengine.actions.SimpleUpdate;
+import com.wiredmind.booleanengine.actions.Action;
 import com.wiredmind.booleanengine.relations.*;
 import org.apache.commons.lang.StringUtils;
 
 /**
  * Creates evaluator command objects.
  */
-public class EvaluatorFactory {
+public class RelationFactory {
 
     /**
      * Creates command objects that represent finitary relations
@@ -29,7 +28,8 @@ public class EvaluatorFactory {
         }
 
         String[] args = StringUtils.strip(arguments).split("\\s+", 2);
-        if (args.length == 1) { // an action (one-place or unary relation)
+
+        if (args.length == 1) { // one-place or unary relation
             return createUnaryRelation(name, args[0]);
         }
 
@@ -54,8 +54,11 @@ public class EvaluatorFactory {
     }
 
     private static Relation createUnaryRelation(String name, String val) {
-        // Actions (Regarded as one-place or unary relations):
-        return new False(); // default
+        // An Action is a one-place or unary Relation:
+        Action action = PluginFactory.getAction(name, val);
+        if (action == null)
+            return new False(); // default - effectively NOP
+        return action;
     }
 
     private static Relation createBinaryRelation(String name, String key, String val) {
@@ -76,10 +79,6 @@ public class EvaluatorFactory {
             return new Like(key, val);
         } else if (name.equals("match")) {
             return new Match(key, val);
-        } else if (name.equals("award")) {
-            return new SimpleUpdate(key, val);
-        } else if (name.equals("percentaward")) {
-            return new PercentUpdate(key, val);
         }
         return new False();
     }

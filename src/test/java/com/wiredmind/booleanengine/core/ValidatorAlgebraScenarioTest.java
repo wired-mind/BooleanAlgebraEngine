@@ -54,8 +54,8 @@ public class ValidatorAlgebraScenarioTest {
         rules.add((new ValidatorRule("C", null, null, "In", "Date 6/10/2009, 29/10/2009, 3/11/2009, 26/11/2009, 01/12/2009, 31/12/2009")));
         rules.add((new ValidatorRule("D", null, null, "GE", "Amount 20.00"))); // minimum spend
         rules.add((new ValidatorRule("E", null, null, "GE", "Amount 50.00"))); // next tier
-        rules.add((new ValidatorRule("F", null, null, "Award", "award 5.00")));
-        rules.add((new ValidatorRule("G", null, null, "PercentAward", "award 20")));
+        rules.add((new ValidatorRule("F", null, null, "Award", "5.00")));
+        rules.add((new ValidatorRule("G", null, null, "PercentAward", "20")));
 
         ValidatorAlgebra algebra = new DefaultValidatorAlgebra("A and B and C and E ? G : A and B and C and D and F", rules);
         try {
@@ -80,8 +80,8 @@ public class ValidatorAlgebraScenarioTest {
         rules.add((new ValidatorRule("C", null, null, "In", "Date 6/10/2009, 29/10/2009, 3/11/2009, 26/11/2009, 01/12/2009, 31/12/2009")));
         rules.add((new ValidatorRule("D", null, null, "GE", "Amount 20.00"))); // minimum spend
         rules.add((new ValidatorRule("E", null, null, "GE", "Amount 50.00"))); // next tier
-        rules.add((new ValidatorRule("F", null, null, "Award", "award 5.00")));
-        rules.add((new ValidatorRule("G", null, null, "PercentAward", "award 20")));
+        rules.add((new ValidatorRule("F", null, null, "Award", "5.00")));
+        rules.add((new ValidatorRule("G", null, null, "PercentAward", "20")));
 
         ValidatorAlgebra algebra = new DefaultValidatorAlgebra("A and B and C and E ? G : A and B and C and D and F", rules);
         try {
@@ -111,8 +111,8 @@ public class ValidatorAlgebraScenarioTest {
         rules.add((new ValidatorRule("C", null, null, "In", "Date 6/10/2009, 29/10/2009, 3/11/2009, 26/11/2009, 01/12/2009, 31/12/2009")));
         rules.add((new ValidatorRule("D", null, null, "GE", "Amount 20.00"))); // minimum spend
         rules.add((new ValidatorRule("E", null, null, "GE", "Amount 50.00"))); // next tier
-        rules.add((new ValidatorRule("F", null, null, "Award", "award 5.00")));
-        rules.add((new ValidatorRule("G", null, null, "PercentAward", "award 20")));
+        rules.add((new ValidatorRule("F", null, null, "Award", "5.00")));
+        rules.add((new ValidatorRule("G", null, null, "PercentAward", "20")));
 
         ValidatorAlgebra algebra = new DefaultValidatorAlgebra("A and B and C and E ? G : A and B and C and D and F", rules);
         try {

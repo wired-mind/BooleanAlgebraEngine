@@ -1,27 +1,24 @@
 package com.wiredmind.booleanengine.actions;
 
-import com.wiredmind.booleanengine.core.EvaluatorFactory;
-import com.wiredmind.booleanengine.relations.AbstractRelation;
+import com.wiredmind.booleanengine.core.RelationFactory;
+import com.wiredmind.booleanengine.relations.AbstractUnaryRelation;
 import org.apache.commons.chain.Command;
 import org.apache.commons.chain.Context;
 
 /**
- * Base class for family of "Update" commands.
- * May be regarded as a one-place (unary) relation
- * since it can be viewed as an individual having
- * the property, true or false, <i>after</i> some
- * action or unit of work is performed.
+ * Base class for family of Action commands.
+ *
+ * Custom Action commands should extend this
+ * class rather than implement the Relation
+ * interface themselves.
  */
-abstract class UpdateBase<K, V> extends AbstractRelation {
+public abstract class ActionBase<T> extends AbstractUnaryRelation<T> implements Action {
 
-    final K key;
-    final V val;
     Command applicabilityMember;
     boolean isApplicable = false;
 
-    UpdateBase(K key, V amount) {
-        this.key = key;
-        this.val = amount;
+    public ActionBase(T val) {
+        super(val);
     }
 
     /**
@@ -32,8 +29,9 @@ abstract class UpdateBase<K, V> extends AbstractRelation {
      * @param arguments The individuals or values used for the validation
      * @return A reference to this instance
      */
-    public UpdateBase When(String relation, String arguments) {
-        this.applicabilityMember = EvaluatorFactory.create(relation, arguments);
+    @Override
+    public Action When(String relation, String arguments) {
+        this.applicabilityMember = RelationFactory.create(relation, arguments);
         return this;
     }
 
@@ -49,7 +47,8 @@ abstract class UpdateBase<K, V> extends AbstractRelation {
      * @param command - Any Command or Chain of commands
      * @return this instance
      */
-    public UpdateBase When(Command command) {
+    @Override
+    public Action When(Command command) {
         this.applicabilityMember = command;
         return this;
     }
@@ -66,6 +65,16 @@ abstract class UpdateBase<K, V> extends AbstractRelation {
         if (null != applicabilityMember) {
             isApplicable = !applicabilityMember.execute(cntxt);
         }
+
+        if (null == applicabilityMember || isApplicable) {
+            truthValue = performAction(cntxt);
+        }
         return CONTINUE_PROCESSING;
+    }
+
+    @Override
+    public boolean isTruthValue(Context context) throws Exception {
+        execute(context);
+        return truthValue;
     }
 }

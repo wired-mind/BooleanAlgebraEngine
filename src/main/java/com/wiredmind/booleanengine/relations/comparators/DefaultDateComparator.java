@@ -1,8 +1,8 @@
 package com.wiredmind.booleanengine.relations.comparators;
 
-import com.wiredmind.booleanengine.relations.Comparator;
 import org.apache.commons.lang.time.DateUtils;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,14 +11,19 @@ import java.util.Date;
  * Created by Craig Earley on 8/5/13.
  * Copyright (c) 2013 Wired-Mind Labs, LLC.
  */
-public class DefaultDateComparator implements Comparator<Date> {
+public class DefaultDateComparator implements Comparator<Date>, Serializable {
 
     private static final String[] DATE_PARSE_PATTERNS = new String[]{"yyMMdd", "yyyy-MM-dd", "dd/MM/yyyy", "MM/dd/yyyy"};
 
     @Override
+    public int compare(Date lhs, Date rhs) throws Exception {
+        return rhs.compareTo(lhs);
+    }
+
+    @Override
     public int compare(Date lhs, CharSequence rhs) throws Exception {
         Date date = DateUtils.parseDate(String.valueOf(rhs), DATE_PARSE_PATTERNS);
-        return date.compareTo(lhs);
+        return compare(lhs, date);
     }
 
     @Override

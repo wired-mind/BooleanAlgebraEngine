@@ -1,8 +1,8 @@
 package com.wiredmind.booleanengine.relations.comparators;
 
-import com.wiredmind.booleanengine.relations.Comparator;
 import org.apache.commons.lang.StringUtils;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -11,13 +11,20 @@ import java.math.BigDecimal;
  * Created by Craig Earley on 8/5/13.
  * Copyright (c) 2013 Wired-Mind Labs, LLC.
  */
-public class DefaultNumberComparator implements Comparator<Number> {
+public class DefaultNumberComparator implements Comparator<Number>, Serializable {
+
+    @Override
+    public int compare(Number lhs, Number rhs) throws Exception {
+        BigDecimal l = BigDecimal.valueOf(lhs.doubleValue());
+        BigDecimal r = BigDecimal.valueOf(rhs.doubleValue());
+        return r.compareTo(l);
+    }
 
     @Override
     public int compare(Number lhs, CharSequence rhs) throws Exception {
-        BigDecimal number = BigDecimal.valueOf(lhs.doubleValue());
-        BigDecimal numberArg = new BigDecimal(String.valueOf(rhs));
-        return numberArg.compareTo(number);
+        BigDecimal l = BigDecimal.valueOf(lhs.doubleValue());
+        BigDecimal r = new BigDecimal(String.valueOf(rhs));
+        return r.compareTo(l);
     }
 
     @Override
