@@ -49,7 +49,7 @@ public class ValidatorAlgebraScenarioTest {
         context.put("Amount", 49.99);
 
         List<Rule> rules = new ArrayList<Rule>();
-        rules.add((new ValidatorRule("A", null, null, "In", "MID 53120251526, 53110201523")));
+        rules.add((new ValidatorRule("A", null, null, "In", "MID 11111111111, 53120251526, 53110201523")));
         rules.add((new ValidatorRule("B", null, null, "EQ", "TerminalID 00000001")));
         rules.add((new ValidatorRule("C", null, null, "In", "Date 6/10/2009, 29/10/2009, 3/11/2009, 26/11/2009, 01/12/2009, 31/12/2009")));
         rules.add((new ValidatorRule("D", null, null, "GE", "Amount 20.00"))); // minimum spend
@@ -75,7 +75,7 @@ public class ValidatorAlgebraScenarioTest {
         context.put("Amount", 50.00);
 
         List<Rule> rules = new ArrayList<Rule>();
-        rules.add((new ValidatorRule("A", null, null, "In", "MID 53120251526, 53110201523")));
+        rules.add((new ValidatorRule("A", null, null, "In", "MID 11111111111, 53120251526, 53110201523")));
         rules.add((new ValidatorRule("B", null, null, "EQ", "TerminalID 00000001")));
         rules.add((new ValidatorRule("C", null, null, "In", "Date 6/10/2009, 29/10/2009, 3/11/2009, 26/11/2009, 01/12/2009, 31/12/2009")));
         rules.add((new ValidatorRule("D", null, null, "GE", "Amount 20.00"))); // minimum spend
@@ -101,7 +101,7 @@ public class ValidatorAlgebraScenarioTest {
         context.put("Amount", 100.00);
 
         List<Rule> rules = new ArrayList<Rule>();
-        rules.add((new ValidatorRule("A", null, null, "In", "MID 53120251526, 53110201523")));
+        rules.add((new ValidatorRule("A", null, null, "In", "MID 11111111111, 53120251526, 53110201523")));
 
         // The following TID restriction disqualifies the transaction (see setUp() in this Test class)
         rules.add((new ValidatorRule("B", null, null, "EQ", "TerminalID 9999")));

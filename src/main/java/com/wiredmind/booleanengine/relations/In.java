@@ -12,7 +12,7 @@ public class In extends AbstractBinaryRelation<Object, String> {
 
     public In(Object key, String val) {
         super(key, null);
-        vals = val.split(",");
+        vals = val.split("[\\s,]+");
     }
 
     public In(Object key, String... vals) {

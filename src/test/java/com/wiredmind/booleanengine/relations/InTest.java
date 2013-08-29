@@ -53,7 +53,7 @@ public class InTest {
         Date date = df.parse("15/01/2009");
         context.put("property", date);
 
-        In instance = new In("property", "15/01/2009", "01/01/2020");
+        In instance = new In("property", "01/01/2020", "15/01/2009", "01/01/2020");
         assertTrue(instance.isTruthValue(context));
 
         instance = new In("property", "01/01/2020", "02/01/2020", "03/01/2020");
@@ -67,7 +67,7 @@ public class InTest {
         calendar.set(2009, 0, 15); // month value is 0-based
         context.put("property", calendar);
 
-        In instance = new In("property", "15/01/2009", "01/01/2020");
+        In instance = new In("property", "01/01/2020", "15/01/2009", "01/01/2020");
         assertTrue(instance.isTruthValue(context));
 
         instance = new In("property", "01/01/2020", "02/01/2020", "03/01/2020");
@@ -80,7 +80,7 @@ public class InTest {
         String s = "Apple";
         context.put("property", s);
 
-        In instance = new In("property", "apple", "PC");
+        In instance = new In("property", "orange", "apple", "PC");
         assertTrue(instance.isTruthValue(context));
 
         instance = new In("property", "CRAY", "PC");
