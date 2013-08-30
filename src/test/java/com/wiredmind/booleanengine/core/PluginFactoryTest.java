@@ -28,6 +28,25 @@ public class PluginFactoryTest {
     }
 
     @Test
+    public void testCanRegisterAction() throws Exception {
+
+        PluginFactory.RegisterAction("myAction", PercentUpdate.class);
+
+        Action action = PluginFactory.getAction("myAction", "2");
+        assertEquals(action.getClass(), PercentUpdate.class);
+    }
+
+    @Test
+    public void testCanRegisterComparator() throws Exception {
+
+        PluginFactory.RegisterComparator(String.class, TestComparator.class);
+
+        Comparator comparator = PluginFactory.getComparator("string");
+
+        assertEquals(comparator.getClass(), TestComparator.class);
+    }
+
+    @Test
     public void testGetAction() throws Exception {
 
         Action action = PluginFactory.getAction("percentAward", "2");

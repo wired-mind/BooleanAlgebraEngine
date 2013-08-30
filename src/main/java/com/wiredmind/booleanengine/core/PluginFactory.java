@@ -51,18 +51,18 @@ public class PluginFactory {
         }
     }
 
-    public static void RegisterAction(String name, Action action) {
+    public static void RegisterAction(String name, Class<? extends Action> action) {
         if (pluginActions.containsKey(name))
             pluginActions.remove(name);
 
-        pluginActions.put(name, action.getClass());
+        pluginActions.put(name, action);
     }
 
-    public static void RegisterComparator(Class<?> type, Comparator<?> comparator) {
+    public static void RegisterComparator(Class<?> type, Class<? extends Comparator> comparator) {
         if (pluginComparators.containsKey(type))
             pluginComparators.remove(type);
 
-        pluginComparators.put(type, comparator.getClass());
+        pluginComparators.put(type, comparator);
     }
 
     public static Action getAction(String name, String val) {
