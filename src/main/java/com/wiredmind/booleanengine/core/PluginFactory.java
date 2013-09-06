@@ -30,7 +30,7 @@ public class PluginFactory {
         defaultComparators.put(java.util.Calendar.class, new DefaultCalendarComparator());
         defaultComparators.put(java.lang.String.class, new DefaultStringComparator());
         defaultComparators.put(java.util.Date.class, new DefaultDateComparator());
-        defaultComparators.put(java.lang.Boolean.class, new DefaultNumberComparator());
+        defaultComparators.put(java.lang.Boolean.class, new DefaultBooleanComparator());
 
         try {
             config.setDelimiterParsingDisabled(true);
@@ -47,7 +47,7 @@ public class PluginFactory {
                         Class.forName(plugin.getString("class")));
             }
         } catch (Exception e) {
-            LOGGER.severe(new ExceptionInInitializerError(e).toString());
+            LOGGER.warning(e.getMessage());
         }
     }
 

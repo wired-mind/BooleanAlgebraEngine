@@ -20,10 +20,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class EqTest {
 
+    Context context = new ContextBase();
+
     public EqTest() {
     }
-
-    Context context = new ContextBase();
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -82,5 +82,27 @@ public class EqTest {
 
         Eq instance = new Eq("property", "this is a test");
         assertTrue(instance.isTruthValue(context));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testCanCompareBooleans() throws Exception {
+        boolean b = true;
+        context.put("property", b);
+
+        Eq instance = new Eq("property", "true");
+        assertTrue(instance.isTruthValue(context));
+
+        instance = new Eq("property", "false");
+        assertFalse(instance.isTruthValue(context));
+
+        b = false;
+        context.put("property", b);
+
+        instance = new Eq("property", "false");
+        assertTrue(instance.isTruthValue(context));
+
+        instance = new Eq("property", "true");
+        assertFalse(instance.isTruthValue(context));
     }
 }

@@ -20,10 +20,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class LikeTest {
 
+    Context context = new ContextBase();
+
     public LikeTest() {
     }
-
-    Context context = new ContextBase();
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -94,6 +94,30 @@ public class LikeTest {
         assertTrue(instance.isTruthValue(context));
 
         instance = new Like("desc", "Orange");
+        assertFalse(instance.isTruthValue(context));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testCanCompareBooleans() throws Exception {
+        context.put("boolean", true);
+
+        Like instance = new Like("boolean", "true");
+        assertTrue(instance.isTruthValue(context));
+
+        instance = new Like("boolean", "True");
+        assertTrue(instance.isTruthValue(context));
+
+        instance = new Like("boolean", "TRUE");
+        assertTrue(instance.isTruthValue(context));
+
+        instance = new Like("boolean", "1");
+        assertFalse(instance.isTruthValue(context));
+
+        instance = new Like("boolean", "False");
+        assertFalse(instance.isTruthValue(context));
+
+        instance = new Like("boolean", null);
         assertFalse(instance.isTruthValue(context));
     }
 }

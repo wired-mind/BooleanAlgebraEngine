@@ -19,10 +19,10 @@ import static org.junit.Assert.assertTrue;
  */
 public class BetweenTest {
 
+    Context context = new ContextBase();
+
     public BetweenTest() {
     }
-
-    Context context = new ContextBase();
 
     @BeforeClass
     public static void setUpClass() throws Exception {
@@ -99,5 +99,36 @@ public class BetweenTest {
 
         Between instance = new Between("property", "xx", "xxxx");
         assertTrue(instance.isTruthValue(context));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testCanCompareBooleans() throws Exception {
+        boolean b = true;
+        context.put("property", b);
+
+        // Between is true for Booleans only if 'property' would be placed between lhs and rhs when ordered
+
+        /*
+         * These are tue
+         */
+        Between instance = new Between("property", "true", "true");
+        assertTrue(instance.isTruthValue(context));
+
+        instance = new Between("property", "false", "true");
+        assertTrue(instance.isTruthValue(context));
+
+        /*
+         * These are not
+         */
+        instance = new Between("property", "true", "false");
+        assertFalse(instance.isTruthValue(context));
+
+        instance = new Between("property", "false", "false");
+        assertFalse(instance.isTruthValue(context));
+
+        // Note that numbers are not valid Boolean values
+        instance = new Between("property", "1", "1");
+        assertFalse(instance.isTruthValue(context));
     }
 }
