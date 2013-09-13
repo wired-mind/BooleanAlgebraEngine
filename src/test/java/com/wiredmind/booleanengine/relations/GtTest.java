@@ -47,6 +47,43 @@ public class GtTest {
 
         instance = new Gt("property", "1000");
         assertFalse(instance.isTruthValue(context));
+
+        int anInt = 0;
+        context.put("property", anInt);
+
+        instance = new Gt("property", "0");
+        assertFalse(instance.isTruthValue(context));
+
+        instance = new Gt("property", "0.00");
+        assertFalse(instance.isTruthValue(context));
+
+        float afloat = 0.0f;
+        context.put("property", afloat);
+
+        instance = new Gt("property", "0");
+        assertFalse(instance.isTruthValue(context));
+
+        instance = new Gt("property", "0.00");
+        assertFalse(instance.isTruthValue(context));
+
+        String aString = "0";
+        context.put("property", aString);
+
+        instance = new Gt("property", "0");
+        assertFalse(instance.isTruthValue(context));
+
+        instance = new Gt("property", "0.00");
+        assertFalse(instance.isTruthValue(context));
+
+        aString = "0.00";
+        context.put("property", aString);
+
+        // !IMPORTANT CAVEAT: "0.00" *is* greater than "0" (relative ordering of strings)
+        instance = new Gt("property", "0");
+        assertTrue(instance.isTruthValue(context));
+
+        instance = new Gt("property", "0.00");
+        assertFalse(instance.isTruthValue(context));
     }
 
     @Test
