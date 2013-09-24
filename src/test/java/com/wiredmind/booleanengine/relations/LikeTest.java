@@ -60,8 +60,8 @@ public class LikeTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testCanCompareDates() throws Exception {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = df.parse("15/01/2009");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'HH:mm:ssZ");
+        Date date = df.parse("15/01/2009T00:00:00-0000");
         context.put("property", date);
 
         Like instance = new Like("property", "15/01/2009");

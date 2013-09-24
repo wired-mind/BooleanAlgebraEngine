@@ -54,8 +54,8 @@ public class BetweenTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testCanCompareDates() throws Exception {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = df.parse("15/01/2009");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'HH:mm:ssZ");
+        Date date = df.parse("15/01/2009T00:00:00-0000");
         context.put("property", date);
 
         Between instance = new Between("property", "14/01/2009", "16/01/2009");

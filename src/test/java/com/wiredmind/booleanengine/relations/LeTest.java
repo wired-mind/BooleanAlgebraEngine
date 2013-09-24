@@ -52,8 +52,8 @@ public class LeTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testCanCompareDates() throws ParseException, Exception {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = df.parse("15/01/2009");
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy'T'HH:mm:ssZ");
+        Date date = df.parse("15/01/2009T00:00:00-0000");
         context.put("property", date);
 
         Le instance = new Le("property", "16/01/2009");

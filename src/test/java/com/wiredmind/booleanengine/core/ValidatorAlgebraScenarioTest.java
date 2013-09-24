@@ -38,7 +38,7 @@ public class ValidatorAlgebraScenarioTest {
     public void setUp() throws ParseException {
         context.put("MID", "53120251526");
         context.put("TerminalID", "00000001");
-        context.put("Date", (new SimpleDateFormat("dd/MM/yyyy")).parse("31/12/2009"));
+        context.put("Date", (new SimpleDateFormat("dd/MM/yyyy'T'HH:mm:ssZ")).parse("31/12/2009T00:00:00-0000"));
         context.put("award", "");
     }
 

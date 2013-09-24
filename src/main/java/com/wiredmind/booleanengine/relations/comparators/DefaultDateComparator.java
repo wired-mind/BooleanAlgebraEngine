@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class DefaultDateComparator implements Comparator<Date>, Serializable {
 
-    private static final String[] DATE_PARSE_PATTERNS = new String[]{"yyMMdd", "yyyy-MM-dd", "dd/MM/yyyy", "MM/dd/yyyy"};
+    private static final String[] DATE_PARSE_PATTERNS = new String[]{"yyMMdd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ssZ", "dd/MM/yyyy'T'HH:mm:ssZ", "MM/dd/yyyy'T'HH:mm:ssZ"};
 
     @Override
     public int compare(Date lhs, Date rhs) throws Exception {
@@ -22,7 +22,13 @@ public class DefaultDateComparator implements Comparator<Date>, Serializable {
 
     @Override
     public int compare(Date lhs, CharSequence rhs) throws Exception {
-        Date date = DateUtils.parseDate(String.valueOf(rhs), DATE_PARSE_PATTERNS);
+        String dateString = String.valueOf(rhs);
+
+        String[] parts = dateString.split("T");
+        if (parts.length == 1)
+            dateString = String.format("%sT00:00:00-0000", parts[0]); // GMT/UTC time
+
+        Date date = DateUtils.parseDate(String.valueOf(dateString), DATE_PARSE_PATTERNS);
         return compare(lhs, date);
     }
 
